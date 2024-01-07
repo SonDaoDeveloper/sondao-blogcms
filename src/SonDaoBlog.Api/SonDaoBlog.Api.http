@@ -1,6 +1,0 @@
-@SonDaoBlog.Api_HostAddress = http://localhost:5188
-
-GET {{SonDaoBlog.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

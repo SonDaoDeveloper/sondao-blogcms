@@ -7,6 +7,8 @@ using SonDaoBlog.Core.SeedWorks;
 using SonDaoBlog.Data;
 using SonDaoBlog.Data.Repositories;
 using SonDaoBlog.Data.SeedWorks;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 using TeduBlog.Data.SeedWorks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,7 +66,20 @@ builder.Services.AddAutoMapper(typeof(PostInListDto));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.CustomOperationIds(apiDesc =>
+    {
+        return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+    });
+    c.SwaggerDoc("AdminAPI", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API for Administrators",
+        Description = "API for CMS core domain. This domain keeps track of campaigns, campaign rules, and campaign execution."
+    });
+    c.ParameterFilter<SwaggerNullableParameterFilter>();
+});
 
 var app = builder.Build();
 
@@ -72,7 +87,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("AdminAPI/swagger.json", "Admin API");
+        c.DisplayOperationId();
+        c.DisplayRequestDuration();
+    });
 }
 
 app.UseHttpsRedirection();

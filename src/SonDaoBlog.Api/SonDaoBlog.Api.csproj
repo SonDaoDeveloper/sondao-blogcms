@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SonDaoBlog.Core\SonDaoBlog.Core.csproj" />
     <ProjectReference Include="..\SonDaoBlog.Data\SonDaoBlog.Data.csproj" />
   </ItemGroup>
 

@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SonDaoBlog.Api
+namespace SonDaoBlog.Api.Filters
 {
     public class SwaggerNullableParameterFilter : IParameterFilter
     {

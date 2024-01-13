@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SonDaoBlog.Api;
+using SonDaoBlog.Api.Filters;
+using SonDaoBlog.Api.Services;
+using SonDaoBlog.Core.ConfigOptions;
 using SonDaoBlog.Core.Domain.Identity;
 using SonDaoBlog.Core.Models.Content;
 using SonDaoBlog.Core.SeedWorks;
@@ -62,6 +65,13 @@ foreach (var service in services)
 }
 
 builder.Services.AddAutoMapper(typeof(PostInListDto));
+
+//Authen and author
+builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
+builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

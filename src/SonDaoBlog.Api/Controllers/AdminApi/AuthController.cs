@@ -21,15 +21,15 @@ namespace SonDaoBlog.Api.Controllers.AdminApi
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly RoleManager<AppRole> _roleManager;
-
         public AuthController(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
-
+            _roleManager = roleManager;
         }
 
         [HttpPost]
@@ -55,7 +55,7 @@ namespace SonDaoBlog.Api.Controllers.AdminApi
 
             //Authorization
             var roles = await _userManager.GetRolesAsync(user);
-            var permissions = new List<string>();
+            var permissions = await GetPermissionsByUserIdAsync(user.Id.ToString());
             var claims = new[]
             {
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),

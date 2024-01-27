@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-root',
   template: `
-  <p-toast position="top-center"></p-toast>
+  <p-toast position="top-right"></p-toast>
   <router-outlet></router-outlet>`,
 })
 export class AppComponent implements OnInit {

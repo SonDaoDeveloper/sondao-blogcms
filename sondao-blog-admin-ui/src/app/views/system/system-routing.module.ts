@@ -12,7 +12,8 @@ const routes: Routes = [
     component: UserComponent,
     data: {
       title: 'Users',
-    },
+      requiredPolicy: 'Permissions.Users.View'
+    }
   },
 ];
 

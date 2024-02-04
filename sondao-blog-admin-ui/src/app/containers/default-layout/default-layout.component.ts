@@ -11,13 +11,12 @@ import { UrlConstants } from 'src/app/shared/constants/url.constants';
   styleUrls: ['./default-layout.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
-
   public navItems = [];
 
   constructor(
     private tokenService: TokenStorageService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     var user = this.tokenService.getUser();

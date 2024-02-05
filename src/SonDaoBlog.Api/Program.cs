@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SonDaoBlog.Api;
+using SonDaoBlog.Api.Authorization;
 using SonDaoBlog.Api.Filters;
 using SonDaoBlog.Api.Services;
 using SonDaoBlog.Core.ConfigOptions;
@@ -21,6 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 var TeduCorsPolicy = "TeduCorsPolicy";
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
 {

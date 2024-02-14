@@ -7,9 +7,10 @@ import {
 } from 'src/app/api/admin-api.service.generated';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { RolesDetailComponent } from './roles-detail.component';
-import { MessageConstants } from 'src/app/shared/constants/message.constants';
 import { ConfirmationService } from 'primeng/api';
+import { RoleDetailComponent } from './role-detail.component';
+import { MessageConstants } from 'src/app/shared/constants/message.constants';
+import { PermissionGrantComponent } from './permission-grant.component';
 
 @Component({
   selector: 'app-role',
@@ -35,7 +36,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     public dialogService: DialogService,
     private alertService: AlertService,
     private confirmationService: ConfirmationService
-  ) { }
+  ) {}
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -79,14 +80,35 @@ export class RoleComponent implements OnInit, OnDestroy {
       }, 1000);
     }
   }
-  showPermissionModal(id: string, name: string) { }
+  showPermissionModal(id: string, name: string) {
+    const ref = this.dialogService.open(PermissionGrantComponent, {
+      data: {
+          id: id,
+      },
+      header: name,
+      width: '70%',
+  });
+  const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+  const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+  const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+  dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+  ref.onClose.subscribe((data: RoleDto) => {
+      if (data) {
+          this.alertService.showSuccess(
+              MessageConstants.UPDATED_OK_MSG
+          );
+          this.selectedItems = [];
+          this.loadData();
+      }
+  });
+  }
   showEditModal() {
     if (this.selectedItems.length == 0) {
       this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
       return;
     }
     var id = this.selectedItems[0].id;
-    const ref = this.dialogService.open(RolesDetailComponent, {
+    const ref = this.dialogService.open(RoleDetailComponent, {
       data: {
         id: id,
       },
@@ -106,7 +128,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     });
   }
   showAddModal() {
-    const ref = this.dialogService.open(RolesDetailComponent, {
+    const ref = this.dialogService.open(RoleDetailComponent, {
       header: 'Thêm mới quyền',
       width: '70%',
     });
@@ -124,37 +146,38 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
   deleteItems() {
     if (this.selectedItems.length == 0) {
-      this.alertService.showError(
-        MessageConstants.NOT_CHOOSE_ANY_RECORD
-      );
-      return;
+        this.alertService.showError(
+            MessageConstants.NOT_CHOOSE_ANY_RECORD
+        );
+        return;
     }
     var ids = [];
     this.selectedItems.forEach((element) => {
-      ids.push(element.id);
+        ids.push(element.id);
     });
     this.confirmationService.confirm({
-      message: MessageConstants.CONFIRM_DELETE_MSG,
-      accept: () => {
-        this.deleteItemsConfirm(ids);
-      },
+        message: MessageConstants.CONFIRM_DELETE_MSG,
+        accept: () => {
+            this.deleteItemsConfirm(ids);
+        },
     });
-  }
-  deleteItemsConfirm(ids: any[]) {
+}
+
+deleteItemsConfirm(ids: any[]) {
     this.toggleBlockUI(true);
 
     this.roleService.deleteRoles(ids).subscribe({
-      next: () => {
-        this.alertService.showSuccess(
-          MessageConstants.DELETED_OK_MSG
-        );
-        this.loadData();
-        this.selectedItems = [];
-        this.toggleBlockUI(false);
-      },
-      error: () => {
-        this.toggleBlockUI(false);
-      },
+        next: () => {
+            this.alertService.showSuccess(
+                MessageConstants.DELETED_OK_MSG
+            );
+            this.loadData();
+            this.selectedItems = [];
+            this.toggleBlockUI(false);
+        },
+        error: () => {
+            this.toggleBlockUI(false);
+        },
     });
-  }
+}
 }

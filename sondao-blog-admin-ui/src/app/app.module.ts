@@ -40,14 +40,18 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 
 import {
   ADMIN_API_BASE_URL,
+  AddPostSeriesRequest,
   AdminApiAuthApiClient,
+  AdminApiPostApiClient,
+  AdminApiPostCategoryApiClient,
   AdminApiRoleApiClient,
+  AdminApiSeriesApiClient,
   AdminApiTestApiClient,
   AdminApiTokenApiClient,
   AdminApiUserApiClient
 } from './api/admin-api.service.generated';
 
-import { environment } from './environments/environment';
+import { environment } from 'src/environments/environment';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AlertService } from './shared/services/alert.service';
@@ -59,6 +63,7 @@ import { GlobalHttpInterceptorService } from './shared/interceptors/error-handle
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { UtilityService } from './shared/services/utility.service';
+import { UploadService } from './shared/services/upload.service';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -127,9 +132,13 @@ const APP_CONTAINERS = [
     AdminApiTokenApiClient,
     AdminApiRoleApiClient,
     AdminApiUserApiClient,
+    AdminApiPostCategoryApiClient,
+    AdminApiPostApiClient,
+    AdminApiSeriesApiClient,
     DialogService,
     ConfirmationService,
-    UtilityService
+    UtilityService,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

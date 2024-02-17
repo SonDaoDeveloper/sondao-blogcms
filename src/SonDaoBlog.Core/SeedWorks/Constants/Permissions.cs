@@ -50,6 +50,8 @@ namespace SonDaoBlog.Core.SeedWorks.Constants
             public const string Create = "Permissions.Posts.Create";
             [Description("Sửa bài viết")]
             public const string Edit = "Permissions.Posts.Edit";
+            [Description("Duyệt bài viết")]
+            public const string Approve = "Permissions.Posts.Approve";
             [Description("Xóa bài viết")]
             public const string Delete = "Permissions.Posts.Delete";
         }

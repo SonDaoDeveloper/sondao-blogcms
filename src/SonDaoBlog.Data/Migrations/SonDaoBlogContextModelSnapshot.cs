@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SonDaoBlog.Data;
 
 #nullable disable
 
@@ -128,12 +129,31 @@ namespace SonDaoBlog.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<Guid>("AuthorUserId")
                         .HasMaxLength(500)
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AuthorUserName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("CategorySlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -190,7 +210,7 @@ namespace SonDaoBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Content.PostActivityLog", b =>
@@ -218,9 +238,14 @@ namespace SonDaoBlog.Data.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("PostActivityLogs");
+                    b.ToTable("PostActivityLogs", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Content.PostCategory", b =>
@@ -262,7 +287,7 @@ namespace SonDaoBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("PostCategories");
+                    b.ToTable("PostCategories", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Content.PostInSeries", b =>
@@ -278,7 +303,7 @@ namespace SonDaoBlog.Data.Migrations
 
                     b.HasKey("PostId", "SeriesId");
 
-                    b.ToTable("PostInSeries");
+                    b.ToTable("PostInSeries", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Content.PostTag", b =>
@@ -291,7 +316,7 @@ namespace SonDaoBlog.Data.Migrations
 
                     b.HasKey("PostId", "TagId");
 
-                    b.ToTable("PostTags");
+                    b.ToTable("PostTags", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Content.Series", b =>
@@ -341,7 +366,7 @@ namespace SonDaoBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Series");
+                    b.ToTable("Series", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Content.Tag", b =>
@@ -357,7 +382,7 @@ namespace SonDaoBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Identity.AppRole", b =>
@@ -382,7 +407,7 @@ namespace SonDaoBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoles");
+                    b.ToTable("AppRoles", (string)null);
                 });
 
             modelBuilder.Entity("SonDaoBlog.Core.Domain.Identity.AppUser", b =>
@@ -476,7 +501,7 @@ namespace SonDaoBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUsers");
+                    b.ToTable("AppUsers", (string)null);
                 });
 #pragma warning restore 612, 618
         }

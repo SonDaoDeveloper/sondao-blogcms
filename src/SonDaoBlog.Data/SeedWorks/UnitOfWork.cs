@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using SonDaoBlog.Core.Domain.Identity;
 using SonDaoBlog.Core.Repositories;
 using SonDaoBlog.Core.SeedWorks;
 using SonDaoBlog.Data;
@@ -10,12 +12,18 @@ namespace TeduBlog.Data.SeedWorks
     {
         private readonly SonDaoBlogContext _context;
 
-        public UnitOfWork(SonDaoBlogContext context, IMapper mapper)
+        public UnitOfWork(SonDaoBlogContext context, IMapper mapper, UserManager<AppUser> userManager)
         {
             _context = context;
-            Posts = new PostRepository(context, mapper);
+            Posts = new PostRepository(context, mapper, userManager);
+            PostCategories = new PostCategoryRepository(context, mapper);
+            Series = new SeriesRepository(context, mapper);
         }
         public IPostRepository Posts { get; private set; }
+
+        public IPostCategoryRepository PostCategories { get; private set; }
+
+        public ISeriesRepository Series { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

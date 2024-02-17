@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SonDaoBlog.Core.Domain.Content;
 using SonDaoBlog.Core.Domain.Identity;
+using SonDaoBlog.Core.Domain.Royalty;
 using SonDaoBlog.Core.SeedWorks.Constants;
 
 namespace SonDaoBlog.Data
@@ -19,6 +20,7 @@ namespace SonDaoBlog.Data
         public DbSet<PostActivityLog> PostActivityLogs { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<PostInSeries> PostInSeries { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

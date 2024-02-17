@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SonDaoBlog.Data;
 
@@ -11,9 +12,11 @@ using SonDaoBlog.Data;
 namespace SonDaoBlog.Data.Migrations
 {
     [DbContext(typeof(SonDaoBlogContext))]
-    partial class SonDaoBlogContextModelSnapshot : ModelSnapshot
+    [Migration("20240217151204_AddRoyalty")]
+    partial class AddRoyalty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

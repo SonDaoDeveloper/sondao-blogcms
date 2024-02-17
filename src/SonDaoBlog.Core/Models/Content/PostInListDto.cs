@@ -24,6 +24,9 @@ namespace SonDaoBlog.Core.Models.Content
         public string AuthorUserName { get; set; }
         public string AuthorName { get; set; }
         public PostStatus Status { get; set; }
+        public bool IsPaid { get; set; }
+        public double RoyaltyAmount { get; set; }
+        public DateTime? PaidDate { get; set; }
 
         public class AutoMapperProfiles : Profile
         {

@@ -11,9 +11,11 @@ using SonDaoBlog.Core.ConfigOptions;
 using SonDaoBlog.Core.Domain.Identity;
 using SonDaoBlog.Core.Models.Content;
 using SonDaoBlog.Core.SeedWorks;
+using SonDaoBlog.Core.Services;
 using SonDaoBlog.Data;
 using SonDaoBlog.Data.Repositories;
 using SonDaoBlog.Data.SeedWorks;
+using SonDaoBlog.Data.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
@@ -90,6 +92,7 @@ builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

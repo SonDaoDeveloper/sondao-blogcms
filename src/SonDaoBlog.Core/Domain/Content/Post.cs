@@ -60,6 +60,7 @@ namespace SonDaoBlog.Core.Domain.Content
         [MaxLength(250)]
         [Required]
         public required string CategoryName { get; set;}
+        public DateTime? PaidDate { get; set; }
     }
 
     public enum PostStatus

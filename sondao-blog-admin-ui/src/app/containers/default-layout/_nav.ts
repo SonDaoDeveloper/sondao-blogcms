@@ -38,12 +38,33 @@ export const navItems: INavData[] = [
         attributes: {
           "policyName": "Permissions.Series.View"
         }
+      }
+    ]
+  },
+  {
+    name: 'Nhuận bút',
+    url: '/royalty',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
+      {
+        name: 'Thông kê tháng',
+        url: '/royalty/royalty-month',
+        attributes: {
+          "policyName": "Permissions.Royalty.View"
+        }
       },
       {
-        name: 'Nhuận bút',
-        url: '/content/royalty',
+        name: 'Thông kê tác giả',
+        url: '/royalty/royalty-user',
         attributes: {
-          "policyName": "Permissions.Loyalty.View"
+          "policyName": "Permissions.Royalty.View"
+        }
+      },
+      {
+        name: 'Giao dịch',
+        url: '/royalty/transactions',
+        attributes: {
+          "policyName": "Permissions.Royalty.View"
         }
       }
     ]

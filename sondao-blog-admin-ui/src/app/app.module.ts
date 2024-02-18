@@ -119,7 +119,7 @@ const APP_CONTAINERS = [
     },
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy,
+      useClass: PathLocationStrategy,
     },
     IconSetService,
     Title,

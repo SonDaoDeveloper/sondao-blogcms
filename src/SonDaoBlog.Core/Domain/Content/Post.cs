@@ -54,12 +54,12 @@ namespace SonDaoBlog.Core.Domain.Content
         public PostStatus Status { get; set; }
 
         [Required]
-        [Column(TypeName ="varchar(250)")]
+        [Column(TypeName = "varchar(250)")]
         public required string CategorySlug { get; set; }
 
         [MaxLength(250)]
         [Required]
-        public required string CategoryName { get; set;}
+        public required string CategoryName { get; set; }
         public DateTime? PaidDate { get; set; }
     }
 

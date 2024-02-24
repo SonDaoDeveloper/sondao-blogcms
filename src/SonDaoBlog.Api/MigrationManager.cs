@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SonDaoBlog.Data;
-using TeduBlog.Data;
 
 namespace SonDaoBlog.Api
 {

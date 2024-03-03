@@ -20,5 +20,10 @@ namespace SonDaoBlog.Core.Repositories
         Task<List<PostInListDto>> GetLatesPublishedPosts(int top);
         Task<PagedResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10);
         Task<PostDto> GetBySlug(string slug);
+        Task<List<string>> GetAllTags();
+        Task AddTagToPost(Guid postId, Guid tagId);
+        Task<List<string>> GetTagsByPostId(Guid postId);
+        Task<List<TagDto>> GetTagObjectsByPostId(Guid postId);
+        Task<PagedResult<PostInListDto>> GetPostByTagPaging(string tagSlug, int pageIndex = 1, int pageSize = 10);
     }
 }

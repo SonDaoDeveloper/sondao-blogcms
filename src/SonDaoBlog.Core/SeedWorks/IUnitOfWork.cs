@@ -9,6 +9,7 @@ namespace SonDaoBlog.Core.SeedWorks
         IPostCategoryRepository PostCategories { get; }
         ITransactionRepository Transactions { get; }
         IUserRepository Users { get; }
+        ITagRepository Tags { get; }
         Task<int> CompleteAsync();
     }
 }

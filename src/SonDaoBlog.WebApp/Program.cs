@@ -2,17 +2,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SonDaoBlog.Core.ConfigOptions;
 using SonDaoBlog.Core.Domain.Identity;
+using SonDaoBlog.Core.Events.LoginSuccessed;
 using SonDaoBlog.Core.Models.Content;
 using SonDaoBlog.Core.SeedWorks;
-using SonDaoBlog.Core.Services;
 using SonDaoBlog.Data;
 using SonDaoBlog.Data.Repositories;
 using SonDaoBlog.Data.SeedWorks;
-using SonDaoBlog.Data.Services;
 using SonDaoBlog.WebApp.Helpers;
+using SonDaoBlog.WebApp.Services;
 using TeduBlog.Data.SeedWorks;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -23,7 +24,10 @@ builder.Services.AddControllersWithViews();
 
 //Custom setup
 builder.Services.Configure<SystemConfig>(configuration.GetSection("SystemConfig"));
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 builder.Services.AddDbContext<SonDaoBlogContext>(options => options.UseSqlServer(connectionString));
+
+#region Configure Identity
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<SonDaoBlogContext>().AddDefaultTokenProviders();
 
@@ -50,15 +54,20 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
-// Add services to the container.
-builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddAutoMapper(typeof(PostInListDto));
-
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
+#endregion
+
+builder.Services.AddAutoMapper(typeof(PostInListDto));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginSuccessedEvent).Assembly));
+
+#region Configure Services
+// Add services to the container.
+builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // Business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes()
@@ -74,10 +83,7 @@ foreach (var service in services)
         builder.Services.Add(new ServiceDescriptor(directInterface, service, ServiceLifetime.Scoped));
     }
 }
-
-
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>,
-   CustomClaimsPrincipalFactory>();
+#endregion
 
 //Start pipeline
 

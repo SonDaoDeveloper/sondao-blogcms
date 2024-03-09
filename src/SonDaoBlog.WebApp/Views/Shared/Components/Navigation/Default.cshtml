@@ -1,4 +1,8 @@
-﻿@inject IOptions<SystemConfig> _config;
+﻿@using Microsoft.AspNetCore.Identity
+@using SonDaoBlog.Core.Domain.Identity
+@using SonDaoBlog.WebApp.Extensions
+@inject IOptions<SystemConfig> _config
+@inject SignInManager<AppUser> SignInManager
 @model List<NavigationItemViewModel>
 
 <!-- Navigation-->
@@ -13,6 +17,7 @@
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.About">About</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Series">Series</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="@UrlConsts.Posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Posts
@@ -26,6 +31,21 @@
                 </li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Contact">Contact</a></li>
             </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <span class="navbar-text">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a class="btn" href="@UrlConsts.CreatePost">Create Posts</a>
+                }
+                else
+                {
+                    <a class="btn" href="@UrlConsts.Login">Login</a>
+                    <a class="btn" href="@UrlConsts.Register">Register</a>
+                }
+            </span>
         </div>
     </div>
 </nav>
